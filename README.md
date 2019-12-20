@@ -70,4 +70,4 @@ Pull Requests are welcome, just make sure they follow Angular Changelog Conventi
 
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+  nest-cisco-webdialer-client is [MIT licensed](LICENSE).
