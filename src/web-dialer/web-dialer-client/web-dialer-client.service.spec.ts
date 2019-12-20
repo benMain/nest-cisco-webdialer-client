@@ -140,7 +140,9 @@ describe('WebDialerClientService', () => {
     expect(service).toBeDefined();
   });
   it('getProfileDetails(): should get profile details', async () => {
-    getProfileDetailsSpy.mockReturnValue(Promise.resolve(profileDetailResponse));
+    getProfileDetailsSpy.mockReturnValue(
+      Promise.resolve(profileDetailResponse),
+    );
     const response = await service.getProfileDetails('jdoe', 'superSecret');
     expect(response).toBeTruthy();
     expect(response.deviceInfoListDetail.item.lines.item.$value).toContain(
@@ -152,37 +154,69 @@ describe('WebDialerClientService', () => {
     getProfileSpy.mockReturnValue(Promise.resolve(profileResponse));
     const response = await service.getProfile('jdoe', 'superSecret');
     expect(response).toBeTruthy();
-    expect(response.deviceInfoList.item.lines.item.$value).toContain(phoneExtension);
+    expect(response.deviceInfoList.item.lines.item.$value).toContain(
+      phoneExtension,
+    );
     expect(getProfileSpy).toHaveBeenCalledTimes(1);
   });
   it('getPrimaryLine(): should get getPrimaryLine', async () => {
     const primaryLine = v4();
-    getPrimaryLineSpy.mockReturnValue(Promise.resolve([{ getPrimaryLineReturn: { $value: primaryLine}}]));
+    getPrimaryLineSpy.mockReturnValue(
+      Promise.resolve([{ getPrimaryLineReturn: { $value: primaryLine } }]),
+    );
     const response = await service.getPrimaryLine('jdoe', 'superSecret');
     expect(response).toBeTruthy();
     expect(response).toEqual(primaryLine);
     expect(getPrimaryLineSpy).toHaveBeenCalledTimes(1);
   });
   it('isClusterUser(): should say isClusterUser', async () => {
-    isClusterUserSpy.mockReturnValue(Promise.resolve([{ isClusterUserSoapReturn: {$value : true}}]));
+    isClusterUserSpy.mockReturnValue(
+      Promise.resolve([{ isClusterUserSoapReturn: { $value: true } }]),
+    );
     const response = await service.isClusterUser('jdoe');
     expect(response).toBeTruthy();
     expect(response).toEqual(true);
     expect(isClusterUserSpy).toHaveBeenCalledTimes(1);
   });
-  it('makeCall(): should make call', async () => {
-    getProfileDetailsSpy.mockReturnValue(Promise.resolve(profileDetailResponse));
-    makeCallSpy.mockReturnValue(Promise.resolve([{makeCallSoapReturn: callResponse }]));
-    const makeCallResponse = await service.makeCall('jdoe', 'superSecret',
-      new CanonicalPhoneNumber(1, 314, 8675309),
+  it('makeCall(): should make call with CanonicalPhone Number', async () => {
+    getProfileDetailsSpy.mockReturnValue(
+      Promise.resolve(profileDetailResponse),
+    );
+    makeCallSpy.mockReturnValue(
+      Promise.resolve([{ makeCallSoapReturn: callResponse }]),
+    );
+    const makeCallResponse = await service.makeCall(
+      'jdoe',
+      'superSecret',
+      new CanonicalPhoneNumber('7', '1', '314', '867', '5309'),
+    );
+    expect(makeCallResponse.responseCode.$value).toEqual(0);
+    expect(makeCallSpy).toHaveBeenCalledTimes(1);
+    expect(getProfileDetailsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('makeCall(): should make call with string', async () => {
+    getProfileDetailsSpy.mockReturnValue(
+      Promise.resolve(profileDetailResponse),
+    );
+    makeCallSpy.mockReturnValue(
+      Promise.resolve([{ makeCallSoapReturn: callResponse }]),
+    );
+    const makeCallResponse = await service.makeCall(
+      'jdoe',
+      'superSecret',
+      '713148675309',
     );
     expect(makeCallResponse.responseCode.$value).toEqual(0);
     expect(makeCallSpy).toHaveBeenCalledTimes(1);
     expect(getProfileDetailsSpy).toHaveBeenCalledTimes(1);
   });
   it('endCall(): should end call', async () => {
-    getProfileDetailsSpy.mockReturnValue(Promise.resolve(profileDetailResponse));
-    endCallSpy.mockReturnValue(Promise.resolve([{endCallSoapReturn: callResponse }]));
+    getProfileDetailsSpy.mockReturnValue(
+      Promise.resolve(profileDetailResponse),
+    );
+    endCallSpy.mockReturnValue(
+      Promise.resolve([{ endCallSoapReturn: callResponse }]),
+    );
     const endCallResponse = await service.endCall('jdoe', 'superSecret');
     expect(endCallResponse.responseCode.$value).toEqual(0);
     expect(endCallSpy).toHaveBeenCalledTimes(1);

@@ -20,7 +20,7 @@ export class WebDialerClientService {
   async makeCall(
     userID: string,
     password: string,
-    canonicalPhoneNumber: CanonicalPhoneNumber,
+    numberToDial: CanonicalPhoneNumber | string,
     userProfile?: UserProfile,
   ) {
     const profile: UserProfile = !!userProfile
@@ -28,15 +28,20 @@ export class WebDialerClientService {
       : await this.buildUserProfile(userID, password);
     this.logger.log(`Start makeCall():`);
     this.logger.log(profile);
-    this.logger.log(
-      `Dialiing Number: ${canonicalPhoneNumber.getCanonicalForm()}`,
-    );
+    let dialNumber: string;
+    if (this.isCanonicalPhoneNumber(numberToDial)) {
+      dialNumber = numberToDial.getCanonicalForm();
+    } else {
+      dialNumber = numberToDial;
+    }
+
+    this.logger.log(`Dialiing Number: ${dialNumber}`);
     const response = await this.soapClient.makeCallSoapAsync({
       in0: {
         userID,
         password,
       },
-      in1: canonicalPhoneNumber.getCanonicalForm(),
+      in1: dialNumber,
       in2: profile,
     });
     this.logger.log('makeCall() Response:');
@@ -140,5 +145,11 @@ export class WebDialerClientService {
       dontAutoClose: false,
       dontShowCallConf: false,
     };
+  }
+
+  isCanonicalPhoneNumber(
+    phoneNumber: CanonicalPhoneNumber | string,
+  ): phoneNumber is CanonicalPhoneNumber {
+    return (phoneNumber as CanonicalPhoneNumber).getCanonicalForm !== undefined;
   }
 }
