@@ -19,7 +19,9 @@ import { WebDialerModuleOptions } from './web-dialer-module-options.interface';
   exports: [WebDialerClientService],
 })
 export class WebDialerModule {
-  static forRoot(webDialerModuleOptions: WebDialerModuleOptions): DynamicModule {
+  static forRoot(
+    webDialerModuleOptions: WebDialerModuleOptions,
+  ): DynamicModule {
     return {
       module: WebDialerModule,
       providers: [
