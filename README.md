@@ -16,7 +16,7 @@ $ npm install nest-cisco-webdialer-client
 
 ## Usage
 
-Register Global Module
+Register Global Module. Don't forget the optional SSLConfiguration in the forRoot method's Options object.
 
 ```typescript
 import { Module } from '@nestjs/common';
