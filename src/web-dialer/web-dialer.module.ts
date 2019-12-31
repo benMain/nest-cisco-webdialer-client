@@ -1,6 +1,6 @@
 import { Module, DynamicModule, Global } from '@nestjs/common';
 import { WebDialerClientService } from './web-dialer-client/web-dialer-client.service';
-import { createClientAsync } from 'soap';
+import { createClientAsync, Client } from 'soap';
 import { SOAP_TOKEN, OPTIONS_TOKEN } from './symbols';
 import { WebDialerModuleOptions } from './web-dialer-module-options.interface';
 
@@ -11,7 +11,12 @@ import { WebDialerModuleOptions } from './web-dialer-module-options.interface';
     {
       provide: SOAP_TOKEN,
       useFactory: async (options: WebDialerModuleOptions) => {
-        return await createClientAsync(options.webDialerWsdlUrl);
+        if (!options.soapSecurity) {
+          return await createClientAsync(options.webDialerWsdlUrl);
+        }
+        const client: Client =  await createClientAsync(options.webDialerWsdlUrl);
+        client.setSecurity(options.soapSecurity);
+        return client;
       },
       inject: [OPTIONS_TOKEN],
     },
