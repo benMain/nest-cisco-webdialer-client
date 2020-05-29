@@ -14,7 +14,9 @@ import { WebDialerModuleOptions } from './web-dialer-module-options.interface';
         if (!options.soapSecurity) {
           return await createClientAsync(options.webDialerWsdlUrl);
         }
-        const client: Client =  await createClientAsync(options.webDialerWsdlUrl);
+        const client: Client = await createClientAsync(
+          options.webDialerWsdlUrl,
+        );
         client.setSecurity(options.soapSecurity);
         return client;
       },
