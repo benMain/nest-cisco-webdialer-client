@@ -1,23 +1,24 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { WebDialerClientService } from './web-dialer-client.service';
-import { SOAP_TOKEN } from '../symbols';
 import {
+  CallResponse,
   CanonicalPhoneNumber,
-  WebDialerClient,
-  GetProfileDetailResponse,
-  GetProfileDetailRequest,
-  MakeCallSoapResponse,
-  MakeCallSoapRequest,
-  EndCallSoapResponse,
   EndCallSoapRequest,
+  EndCallSoapResponse,
+  GetPrimaryLineRequest,
+  GetPrimaryLineResponse,
+  GetProfileDetailRequest,
+  GetProfileDetailResponse,
   GetProfileSoapRequest,
   GetProfileSoapResponse,
   IsClusterUserRequest,
   IsClusterUserResponse,
-  GetPrimaryLineRequest,
-  GetPrimaryLineResponse,
-  CallResponse,
+  MakeCallSoapRequest,
+  MakeCallSoapResponse,
+  WebDialerClient,
 } from '../models';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { SOAP_TOKEN } from '../symbols';
+import { WebDialerClientService } from './web-dialer-client.service';
 import { v4 } from 'uuid';
 
 describe('WebDialerClientService', () => {
