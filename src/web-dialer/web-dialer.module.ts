@@ -1,7 +1,8 @@
-import { Module, DynamicModule, Global } from '@nestjs/common';
+import { Client, createClientAsync } from 'soap';
+import { DynamicModule, Global, Module } from '@nestjs/common';
+import { OPTIONS_TOKEN, SOAP_TOKEN } from './symbols';
+
 import { WebDialerClientService } from './web-dialer-client/web-dialer-client.service';
-import { createClientAsync, Client } from 'soap';
-import { SOAP_TOKEN, OPTIONS_TOKEN } from './symbols';
 import { WebDialerModuleOptions } from './web-dialer-module-options.interface';
 
 @Global()

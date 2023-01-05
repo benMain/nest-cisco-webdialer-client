@@ -1,18 +1,20 @@
 import {
+  BadRequestException,
+  Inject,
   Injectable,
   Logger,
-  Inject,
-  BadRequestException,
 } from '@nestjs/common';
-import { WebDialerClient, ConfigResponse } from '../models';
-import { SOAP_TOKEN } from '../symbols';
 import { CanonicalPhoneNumber, UserProfile } from '../models';
+import { ConfigResponse, WebDialerClient } from '../models';
+
+import { SOAP_TOKEN } from '../symbols';
 
 @Injectable()
 export class WebDialerClientService {
   private readonly logger: Logger;
   constructor(
-    @Inject(SOAP_TOKEN) private readonly soapClient: WebDialerClient,
+    @Inject(SOAP_TOKEN)
+    private readonly soapClient: WebDialerClient,
   ) {
     this.logger = new Logger(WebDialerClientService.name);
   }
