@@ -38,8 +38,7 @@
   },
   "peerDependencies": {
     "@nestjs/common": "7 - 9",
-    "@nestjs/core": "7 - 9",
-    "aws-sdk": "^2.686.0"
+    "@nestjs/core": "7 - 9"
   },
   "dependencies": {
     "soap": "^1.0.0"
